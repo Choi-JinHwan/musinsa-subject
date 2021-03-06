@@ -1,6 +1,7 @@
 package com.musinsa.subject.small.url.repository;
 
 import com.musinsa.subject.small.url.domain.SmallUrl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,6 +21,16 @@ class SmallUrlRepositoryTest {
 
     @Autowired
     SmallUrlRepository smallUrlRepository;
+
+    private SmallUrl savedSmallUrl;
+
+    @BeforeEach
+    void beforeEach() {
+        var originalUrl = "https://www.wanted.co.kr/newintro";
+        var hash = String.format("%08x", originalUrl.hashCode());
+
+        this.savedSmallUrl = smallUrlRepository.save(new SmallUrl(hash, originalUrl));
+    }
 
     @Test
     @DisplayName("SmallUrl을 저장할 수 있다.")
@@ -64,6 +75,37 @@ class SmallUrlRepositoryTest {
                 ConstraintViolationException.class,
                 () -> smallUrlRepository.save(smallUrl)
         );
+    }
+
+    @Test
+    @DisplayName("hash값으로 SmallUrl을 찾을 수 있다")
+    void findByHash() {
+        // Given
+        var expectedHash = savedSmallUrl.getHash();
+        var expectedOriginalUrl = savedSmallUrl.getOriginalUrl();
+
+        // When
+        var optionalSmallUrl = smallUrlRepository.findByHash(expectedHash);
+
+        // Then
+        assertThat(optionalSmallUrl).isPresent();
+        var smallUrl = optionalSmallUrl.get();
+        assertThat(smallUrl.getHash()).hasSize(8).isNotBlank();
+        assertThat(smallUrl.getOriginalUrl()).isEqualTo(expectedOriginalUrl);
+        assertThat(smallUrl.getRedirectCount()).isGreaterThanOrEqualTo(0L);
+    }
+
+    @Test
+    @DisplayName(" 존재하지 않는 hash값으로 SmallUrl을 찾을 수 없다")
+    void findNotExistSmallUrlByHash() {
+        // Given
+        var expectedHash = "11111111";
+
+        // When
+        var optionalSmallUrl = smallUrlRepository.findByHash(expectedHash);
+
+        // Then
+        assertThat(optionalSmallUrl).isEmpty();
     }
 
 }
