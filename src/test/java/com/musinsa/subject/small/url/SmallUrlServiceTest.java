@@ -1,5 +1,7 @@
 package com.musinsa.subject.small.url;
 
+import com.musinsa.subject.TestDataInitRunner;
+import com.musinsa.subject.small.url.exception.SmallUrlNotFoundException;
 import com.musinsa.subject.small.url.service.SmallUrlService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -92,5 +94,47 @@ class SmallUrlServiceTest {
 
         assertThat(smallUrlA.getHash()).isNotEqualTo(smallUrlB.getHash());
     }
+
+    @Test
+    @DisplayName("hash로 기존에 저장한 SmallUrl#originalUrl을 가져올 수 있다")
+    void findOriginalUrlByHash() {
+
+        var savedSmallUrl = TestDataInitRunner.testSmallUrl;
+        // Given
+        var expectedHash = savedSmallUrl.getHash();
+        var expectedOriginalUrl = savedSmallUrl.getOriginalUrl();
+
+        // When
+        var originalUrl = smallUrlService.findOriginalUrlByHashForRedirect(expectedHash);
+
+        // Then
+        assertThat(originalUrl).isEqualTo(expectedOriginalUrl);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 hash로 SmallUrl#originalUrl을 가져올 수 없다")
+    void findOriginalUrlByNotExistHash() {
+        // Given
+        var expectedHash = "11111111";
+
+        // When
+        assertThrows(
+                SmallUrlNotFoundException.class,
+                () -> smallUrlService.findOriginalUrlByHashForRedirect(expectedHash)
+        );
+    }
+
+    @ParameterizedTest
+    @DisplayName("유효하지 않은 hash로 SmallUrl#originalUrl을 가져올 수 없다")
+    @ValueSource(strings = {"123456", "        "})
+    @NullAndEmptySource
+    void findOriginalUrlByInvalidHash(String invalidHash) {
+        // When
+        assertThrows(
+                ConstraintViolationException.class,
+                () -> smallUrlService.findOriginalUrlByHashForRedirect(invalidHash)
+        );
+    }
+
 
 }
