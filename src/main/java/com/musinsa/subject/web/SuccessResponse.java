@@ -1,4 +1,4 @@
-package com.musinsa.subject;
+package com.musinsa.subject.web;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
