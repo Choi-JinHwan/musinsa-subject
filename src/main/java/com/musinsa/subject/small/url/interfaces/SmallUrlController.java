@@ -26,7 +26,7 @@ public class SmallUrlController {
         return SuccessResponse.of(smallUrlService.createSmallUrl(request.getOriginalUrl()));
     }
 
-    @GetMapping("/{hash}")
+    @GetMapping("/{hash:\\w{8}}")
     public void redirect(
             @PathVariable String hash,
             HttpServletResponse response
