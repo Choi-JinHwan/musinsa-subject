@@ -1,9 +1,8 @@
 package com.musinsa.subject.small.url;
 
-import com.musinsa.subject.small.url.domain.SmallUrl;
+import com.musinsa.subject.TestDataInitRunner;
 import com.musinsa.subject.small.url.exception.SmallUrlNotFoundException;
 import com.musinsa.subject.small.url.service.SmallUrlService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,15 +22,6 @@ class SmallUrlServiceTest {
 
     @Autowired
     SmallUrlService smallUrlService;
-
-    private SmallUrl savedSmallUrl;
-
-    @BeforeEach
-    void beforeEach() {
-        var originalUrl = "https://www.wanted.co.kr/newintro";
-
-        this.savedSmallUrl = smallUrlService.createSmallUrl(originalUrl);
-    }
 
     @Test
     @DisplayName("SmallUrl을 생성할 수 있다.")
@@ -108,6 +98,8 @@ class SmallUrlServiceTest {
     @Test
     @DisplayName("hash로 기존에 저장한 SmallUrl#originalUrl을 가져올 수 있다")
     void findOriginalUrlByHash() {
+
+        var savedSmallUrl = TestDataInitRunner.testSmallUrl;
         // Given
         var expectedHash = savedSmallUrl.getHash();
         var expectedOriginalUrl = savedSmallUrl.getOriginalUrl();
