@@ -1,13 +1,20 @@
 package com.musinsa.subject.small.url.domain;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SmallUrl {
 
+    @NotBlank
     private final String hash;
 
+    @NotBlank
     private final String originalUrl;
 
+    @NotNull
+    @PositiveOrZero
     private final AtomicLong redirectCount;
 
     public SmallUrl(String hash, String originalUrl) {
