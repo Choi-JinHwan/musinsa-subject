@@ -1,5 +1,7 @@
 package com.musinsa.subject.small.url.domain;
 
+import org.hibernate.validator.constraints.URL;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -11,6 +13,7 @@ public class SmallUrl {
     private final String hash;
 
     @NotBlank
+    @URL
     private final String originalUrl;
 
     @NotNull
