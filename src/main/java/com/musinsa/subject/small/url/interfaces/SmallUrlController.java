@@ -1,9 +1,9 @@
 package com.musinsa.subject.small.url.interfaces;
 
+import com.musinsa.subject.SuccessResponse;
 import com.musinsa.subject.small.url.domain.SmallUrl;
 import com.musinsa.subject.small.url.service.SmallUrlService;
 import com.musinsa.subject.small.url.vo.SmallUrlCreateRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +19,11 @@ public class SmallUrlController {
         this.smallUrlService = smallUrlService;
     }
 
-    @PostMapping
-    public ResponseEntity<SmallUrl> createSmallUrl(
+    @PostMapping("/small-url")
+    public SuccessResponse<SmallUrl> createSmallUrl(
             @Valid @RequestBody SmallUrlCreateRequest request
     ) {
-        return ResponseEntity.ok(smallUrlService.createSmallUrl(request.getOriginalUrl()));
+        return SuccessResponse.of(smallUrlService.createSmallUrl(request.getOriginalUrl()));
     }
 
 }
