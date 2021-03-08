@@ -17,7 +17,7 @@ URL을 입력받아 짧게 줄여주고, Shortening된 URL을 입력하면 원�
 
 ## 리눅스 환경일 경우
 
-프로젝트 루트 디렉토리에서 `./mvnw` 실행
+프로젝트 루트 디렉토리에서 `./mvnw spring-boot:run` 실행
 
 # API문서
 
