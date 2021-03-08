@@ -10,4 +10,15 @@ URL을 입력받아 짧게 줄여주고, Shortening된 URL을 입력하면 원�
 * Database 사용은 필수 아님
 
 다음의 경우 가산점이 부과됩니다.
+
 * Unit test 및 Integration test 작성.
+
+# 실행 방법
+
+## 리눅스 환경일 경우
+
+프로젝트 루트 디렉토리에서 `./mvnw` 실행
+
+# API문서
+
+http://localhoost:8080/swagger-ui.html
